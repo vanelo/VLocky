@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>CerraduraElectrónica</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="jscript.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<meta name= "description" content="Administarción de cerraduras electronicas a traves de permisos de usuario">
+		<meta name="keywords" content="Cerradura electronica, esp8862, arduino, wifi, control de acceso">
+	</head>
+<body>
+	<header>
+		<div id="subheader">
+			<div id="logotipo"><p><a href="">CerraduraElectrónica</a></p></div>
+		<nav>
+			<ul>
+				<li><a href="#Reg">Registros recientes</a></li>
+				<li><a href="#Ayda">Ayuda</a></li>
+				<li><a href="#Contato">Contacto</a></li>
+			</ul>
+		</nav>
+		</div>
+	</header>
+	<section id="wrap">
+		<section id="main">
+			<section id="puertas-habilitadas">
+				<h3>Puertas Habilitadas</h3>
+				<p>
+					<ul>
+						<li onclick="mostrar()">LAB. FÍSICA:
+							<ul class="departamento">
+								<li>P1
+								<img class="candado" onclick="changeImage()" src="imagenes/candadoff.png" width="50" height="50">
+								</li>
+								<li>P2
+								<img class="candado" onclick="changeImage()" src="imagenes/candadoff.png" width="50" height="50">
+								</li>
+							</ul>
+						</li>
+						<li  onclick="mostrar()">LAB. ELECTRICIDAD
+							<ul class="departamento">
+								<li>P1
+								<img class="candado" onclick="changeImage()" src="imagenes/candadoff.png" width="50" height="50">
+								</li>
+								<li>P2
+								<img class="candado" onclick="changeImage()" src="imagenes/candadoff.png" width="50" height="50">
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</p>
+			</section>
+			<section id="detallePuerta">
+				<div id="puerta">
+					<h6>Haz click en una puerta para ver detalles</h6>
+					<p>Nombre:<span id="nombre_puerta"></span></p>
+					<p>Dependencia: <span id="dependencia_puerta"></span></p>
+				</div>
+				<div class="containr">
+					<div class="table-responsive" style="width:90%;">          
+					  <table class="table">
+					    <thead>
+					      <tr>
+					        <th>#</th>
+					        <th>Dia</th>
+					        <th>Fecha</th>
+					        <th>hora</th>
+					        <th>E/s</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <tr>
+					        <td>1</td>
+					        <td>martes</td>
+					        <td>20/03/16</td>
+					        <td>10:50:16</td>
+					        <td>E</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+				
+			</section>
+			<br>
+			<a name="Reg"></a>
+			<section id="registros-recientes">
+			  <section id="radio">
+			  	<div>
+					<input type="radio" name="group1" value="recientes"checked> Registros recientes 
+					<input type="radio" name="group1" value="fecha"> Registros por fecha 
+					<input type="radio" name="group1" value="departamento"> Registros por departamento
+			  </section>
+			  <br>
+			  <section  class="table-responsive">
+				<table class="table">
+					<thead>
+				      <tr>
+				        <th>#</th>
+				        <th>Departamento</th>
+				        <th>Puerta</th>
+				        <th>Fecha-Hora</th>
+				        <th>E/s</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+					<tr>
+						<td>1</td>
+						<td>Departamento</td>
+						<td>Puerta</td>
+						<td>Fecha-Hora</td>
+						<td>Acción</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Lab. Física</td>
+						<td>P1</td>
+						<td>22/11/2015-20:30:25</td>
+						<td>Abrir</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Lab. Física</td>
+						<td>P2</td>
+						<td>22/11/2015-20:45:25</td>
+						<td>Abrir</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>Lab. Física</td>
+						<td>P1</td>
+						<td>22/11/2015-07:30:25</td>
+						<td>Cerrar</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>Lab. Física</td>
+						<td>P2</td>
+						<td>22/11/2015-07:32:25</td>
+						<td>Cerrar</td>
+					</tr>
+					</tbody>
+				</table>
+				</section>
+			</section>
+			<!--<section id="datos-personales">
+				<article>
+					<h3>Datos Personales</h3>
+					<p>
+						<ul>
+							<li>NOMBRE:</li>
+							<li>Ivanna Isabel</li>
+							<li>APELLIDOS:</li>
+							<li>Mesquita Báez</li>
+							<li>DOCUMENTO:</li>
+							<li>5896327</li>
+							<li>TELEFONO:</li>
+							<li>+595961235489</li>
+							<li>CARGO:</li>
+							<li>Director del Lab. Física</li>
+						</ul>
+					</p>
+				</article>
+			</section>-->
+			<section id="ayuda">
+				<a name="Ayda" id="a">
+				<hgroup><h3>Ayuda acerca del funcionamiento del sistema</h3></hgroup>
+						<h4>OBJETIVOS DEL SISTEMA:</h4>
+						<ul>
+							<li>+ Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+							<li>+ Maecenas tempor ipsum non maximus auctor.</li>
+							<li>+ Donec quis orci quis turpis auctor rhoncus.</li>
+							<li>+ Curabitur porttitor mauris et iaculis aliquam.</li>
+						</ul>
+					<h4>COMO UTILIZARLO:</h4>
+						<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						</p>
+			</section>
+			<section id="contacto">
+				<a name="Contato" id="a">
+				<h3>Contacto</h3>
+				<p>
+				Usa este formulario para comunicarnos cualquier duda acerca de esste sistema, completa
+				con los datos requeridos y envía tu mensaje.
+				Lo estaremos respondiendo en la brevedad posible.
+				</p>
+				 <form action="action_page.js" id="form1">
+				 	<fieldset>
+				 		<legend>Por cualquier duda contactese con nosotros</legend>
+				 		<h4>Nombre:</h4>
+  						<input type="text" name="nombre">
+  						<br><br>
+  						<h4>Asunto:</h4>
+  						<input type="text" name="asunto">
+  						<br><br>
+  						<h4>Correo:</h4>
+  						<input type="text" name="correo">
+  						<br><br>
+  						<h4>Mensaje:</h4>
+  						<textarea name="mensaje" rows="10" cols="50">
+  						</textarea>
+  						<br><br>
+  						<input type="submit" value="Enviar">
+  					</fieldset>
+				</form> 
+					<!--Cargo: <input type="text" name="cargo" form="form1"><br>-->
+			</section>
+		</section>
+			<footer>
+				<h5>Km 8 Akaray - B° San Juan - Campus universitario UNE - Ciudad del Este - Py.
+				<h3>Universidad Nacional del Este</h3>
+				<h4>Facultad Politécnica</h4>
+			</footer>	
+	</section>		
+</html>

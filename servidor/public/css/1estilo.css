@@ -1,0 +1,161 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+@import url(https://fonts.googleapis.com/css?family=Tangerine);
+@import url(https://fonts.googleapis.com/css?family=Radley:400,400italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,400italic);
+body{
+	padding: 0;
+	margin: 0;
+	/*background-image: url("../img/security-back.jpg");*/
+	font-family: 'Raleway', sans-serif;
+}
+body p{
+	font-size: 25px;
+	color: #305466;
+}
+*{
+	text-decoration:none;
+	list-style: none;
+}
+li a, p, h2{
+	color: rgba(254,254,254, 0.7);
+}
+/*///////////////INDEX////////////////////*/
+#login{
+
+	margin-left: 25%;
+	margin-top: 15%;-+3
+
+}
+.header_login{
+	font-family: 'Tangerine', sans-serif;
+	float: left;
+	font-size: 70px;
+	color:  #0C6693;
+
+}
+.header_login span{
+	/*text-shadow: 4px 4px 2px #D3EAF6;
+	/*font-family: 'Tangerine', cursive;*/
+}
+.login_form{
+	margin-top: 7px;
+	margin-left: 7%;
+	float: left;
+	text-decoration: none;
+	font-family: 'Raleway', sans-serif;
+	font-size: 15px;
+}
+.login_form input{
+	padding: 8px;
+	background: rgba(236,243,243,0.3);
+	border: none;
+	border-radius: 4px;
+	color: white;
+	margin-top: 8px;
+	width: 200px;
+	font-family: 'Raleway', sans-serif;
+	font-size: 15px;
+}
+.login_form input[type=submit]{
+	background: rgba(142,187,210,0.6);
+	width: 216px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.login_form input[type=submit]:hover{
+	background: rgba(142,187,210,0.8);
+	box-shadow: 1px 1px 1px #272E32;
+}
+.login_form p a{
+	text-decoration:none;
+	color: #8EBBD2;
+	float: right;
+	font-size: 17px;
+}
+
+/*///////////Registro//////////*/
+.form{
+	margin: 5% 8%;
+	color: white;
+}
+.departamento li, .form_reg li input{
+	text-decoration: none !important;
+	list-style: none;
+	border: none;
+	background: rgba(236,243,243,0.3);
+	padding: 8px;
+	border-radius: 4px;
+	color: white;
+	margin-top: 8px;
+	width: 360px;
+	font-family: 'Raleway', sans-serif;
+	font-size: 15px;
+}
+.form_reg li{
+	list-style: none;
+
+}
+.button{
+	text-decoration: none;
+	text-align: center;
+	text-decoration-style: none;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

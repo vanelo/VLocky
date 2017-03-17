@@ -6,8 +6,8 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 IPAddress server(192,168,0,103);
-const char* wifiSSID = "dlink";
-const char* wifiPass = "geardos123";
+const char* wifiSSID = "SSID";
+const char* wifiPass = "pass";
 
 //parametros del lcd: "0x27" significa que no usa pines analogicos (A0=open,A1=open,A2=open) ,"16" (columnas) y "2" (filas)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -139,7 +139,7 @@ void setup()
 	lcd.init();   // initializing the LCD
 	lcd.backlight(); // Enable or Turn On the backlight
 	Serial.println("setup ready! ");
-  analogWrite(12, 0); //para desactivar PWM en el pin 12
+  	analogWrite(12, 0); //para desactivar PWM en el pin 12
 }
 
 void loop()

@@ -1,0 +1,113 @@
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>Sign in - VLocky</title>
+
+	<link rel="shortcut icon" href="images/gt_favicon.png">
+	
+	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src="js/jscript.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<!-- Fixed navbar - ->
+	<div id="header" class="navbar navbar-inverse navbar-fixed-top headroom" ></div> 
+	<!- - /.navbar -->
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container">
+
+		<!--<ol class="breadcrumb">
+			<li><a href="index.html">Home</a></li>
+			<li class="active">User access</li>
+		</ol>-->
+
+		<div class="row">
+			
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Sign in</h1>
+				</header>
+				
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center">Sign in to your account</h3>
+							<!--<p class="text-center text-muted">Lorem ipsum dolor sit amet, <a href="signup.html">Register</a> adipisicing elit. Quo nulla quibusdam cum doloremque incidunt nemo sunt a tenetur omnis odio. </p>-->
+							<hr>
+							
+							<div id="login">
+								<div class="top-margin">
+									<label>Username/Email <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" placeholder="email@example.com" name="email" id="email" required="true">
+								</div>
+								<div class="top-margin">
+									<label>Password <span class="text-danger">*</span></label>
+									<input type="password" class="form-control" placeholder="contraseña" name="password" id="password" required="true">
+								</div>
+
+								<hr>
+
+								<div class="row">
+									<!--<div class="col-lg-8">
+										<b><a href="">Forgot password?</a></b>
+									</div>-->
+									<div class="col-lg-4 text-right">
+										<button class="btn btn-action" type="submit" onclick="login()">Sign in</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+	
+
+	<!--<footer id="footer" class="top-space"></footer>	-->
+		
+
+
+
+
+	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/headroom.min.js"></script>
+	<script src="js/jQuery.headroom.min.js"></script>
+	<script src="js/template.js"></script>
+	<script type="text/javascript" src="js/loadHeadFoot.js"></script>
+	<script type="text/javascript">
+		$(document).keypress(function(e) {
+        	if(e.which == 13) {
+         		login();
+	        }
+	      });
+	</script>
+</body>
+</html>

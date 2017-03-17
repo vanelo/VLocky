@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	<title>ManageDoors - VLocky:control de acceso</title>
+
+	<link rel="shortcut icon" href="images/gt_favicon.png">
+	
+	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src=js/jscript.js></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<!-- Fixed navbar -->
+	<div id="header" class="navbar navbar-inverse navbar-fixed-top headroom" ></div> 
+	<!-- /.navbar -->
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container">
+		
+		<ol class="breadcrumb">
+			<li><a href="index.html">Home</a></li>
+			<li class="active">ManageDoors</li>
+		</ol>
+	</div>
+	<div id="wrap">
+		<section id="main" style="margin: 0 5% 0 5%;">
+			<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
+			<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
+			<section id="puertas-habilitadas">
+				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
+				<div>
+					<ul id="doorsList" ></ul>
+					<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;"></div>
+				</div>
+				<div id="formDoor" style="display:none;">
+					<input type="text" placeholder="Nombre" id="doorName"><br>
+					<input type="text" placeholder="ID" id="doorId"><br>
+					<input type="text" placeholder="Localidad" id="doorLocation"><br>
+					<input type="submit" value="Ok" onclick="newDoor()"><br>
+					<input type="submit" value="cerrar" onclick="cerrar()">
+				</div>
+			</section>
+			<section id="detallePuerta">
+				<div id="contentPuerta"></div>
+				<div class="table-responsive" id="showAccess" style="max-height: 250px; overflow: auto; border: solid 2px aliceblue;"></div>
+			</section>
+			<br>
+			<section id="registros-recientes" style="clear: left;">
+				<h2 class="title"><span class="addElement"><a href="javascript:void(0);" onclick="userForm()"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Usuarios</h2>
+			  	<div style="float:left; margin-bottom: 15px;">
+			  		<input type="text" placeholder="ingrese dato de Usuario" id="uData">
+					<input type="submit" onclick= "getUsers()">
+				</div>
+			  	<div id="addUser" style="display:none;">
+					<input type="text" placeholder="Nombre" id="uName"><br>
+					<input type="text" placeholder="Apellido" id="uLastname"><br>
+					<input type="email" placeholder="email" id="uEmail"><br>
+					<input type="text" placeholder="Numero de celular" id="uPhone"><br>
+					<input type="text" placeholder="ci" id="uDni"><br>
+					<input type="password" placeholder="password" id="uPassword"><br>
+					<select id="uDoor" style="width:100%;" multiple="true"></select><br>
+					<input type="submit" value="Crear" onclick="newUser()" id="btNewUser"><br>
+					<input type="submit" value="Actualizar" onclick="updUser()" id="btUpUser" style="display:none;"><br>
+					<input type="submit" value="cerrar" onclick="cerrar()">
+				</div>
+			  	<br>
+			  	<section  class="table-responsive">
+					<table class="table" style="max-height: 350px; overflow: auto; border: solid 2px aliceblue;">
+						<thead>
+					      <tr>
+					        <th>Nombre</th>
+					        <th>Apellido</th>
+					        <th>Email</th>				        
+					        <th>Telefono</th>
+					        <th>ci</th>
+					      </tr>
+					    </thead>
+					    <tbody id="userInf"></tbody>
+					</table>
+				</section>
+			</section>	
+		</section>
+	</div>
+
+
+
+
+
+
+
+		<!--<div class="row">
+			
+			<!-- Sidebar - ->
+			<aside class="col-md-4 sidebar sidebar-left">
+
+				<div class="row widget">
+					<div class="col-xs-12">
+						<h4>Lorem ipsum dolor sit</h4>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, ratione delectus reiciendis nulla nisi pariatur molestias animi eos repellat? Vel.</p>
+					</div>
+				</div>
+				<div class="row widget">
+					<div class="col-xs-12">
+						<h4>Lorem ipsum dolor sit</h4>
+						<p><img src="images/1.jpg" alt=""></p>
+					</div>
+				</div>
+				<div class="row widget">
+					<div class="col-xs-12">
+						<h4>Lorem ipsum dolor sit</h4>
+						<p><img src="images/2.jpg" alt=""></p>
+						<p>Qui, debitis, ad, neque reprehenderit laborum soluta dolor voluptate eligendi enim consequuntur eveniet recusandae rerum? Atque eos corporis provident tenetur.</p>
+					</div>
+				</div>
+
+			</aside>
+			<!-- /Sidebar - ->
+
+			<!-- Article main content - ->
+			<article class="col-md-8 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Lorem ipsum dolor sit amet, consectetur.</h1>
+				</header>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, itaque, cumque, maxime obcaecati reprehenderit ea dignissimos amet voluptatem id excepturi facilis totam veritatis maiores eveniet neque explicabo temporibus quisquam in ex ab fugiat ipsa tempore sunt corporis nostrum quam illum!</p>
+				<p>Consectetur cupiditate labore repudiandae beatae nisi fugiat facilis natus illum vitae doloremque. In, perspiciatis, natus, impedit voluptas itaque odio repudiandae placeat nisi totam repellendus earum dolores mollitia tempore quasi beatae alias cum dicta maxime laborum corporis harum porro magnam laboriosam.</p>
+				<p>Aut, eaque, minus atque alias odio mollitia cum nisi ipsa nulla natus quae minima similique ipsam aspernatur molestias animi in deleniti nam. Tempora, labore, modi eum perspiciatis doloremque sequi nam illo corporis iusto maiores nisi recusandae repellat animi reiciendis accusamus.</p>
+
+				<h2>A, quibusdam, nobis, eveniet consequatur</h2>
+				<p>A, quibusdam, nobis, eveniet consequatur alias doloremque officia blanditiis fuga et numquam labore reiciendis voluptas quis repellat quos sunt non dolore consectetur at sit nam tenetur dolorem? Harum, quas, sit perspiciatis esse odit temporibus aperiam nulla aspernatur sequi fugiat tempore?</p>
+				<p>Ad velit consequuntur quo qui odit quam sapiente repudiandae et ea pariatur? Ex sapiente beatae nobis consectetur ea. Deleniti, beatae, magnam, dolorum, fuga nostrum quas laboriosam sapiente temporibus enim voluptates ullam impedit atque quae provident quos mollitia aperiam perferendis amet.</p>
+
+				<blockquote>Numquam, ut iure quia facere totam quas odit illo incidunt. Voluptatem, nostrum, ex, quasi incidunt similique cum maxime expedita unde labore inventore excepturi veniam corporis sequi facere ullam voluptates amet illum quam fuga voluptatibus ipsum atque sunt eos. Ut, necessitatibus.</blockquote>
+				<p>Odit, laudantium, dolores, natus distinctio labore voluptates in inventore quasi qui nobis quis adipisci fugit id! Aliquam alias ea modi. Porro, odio, sed veniam hic numquam qui ad molestiae sint placeat expedita? Perferendis, enim qui numquam sequi obcaecati molestiae fugiat!</p>
+				<p>Aperiam, odit, quasi, voluptate fugiat quisquam velit magni provident corporis animi facilis illo eveniet eum obcaecati adipisci blanditiis quas labore doloribus eos veniam repudiandae suscipit tempora ad harum odio eius distinctio hic deleniti. Sunt fuga ad perspiciatis repellat deleniti omnis!</p>
+
+				<h3>Numquam, ut iure quia facere totam quas odit illo incidunt</h3>
+				<p>Est, maiores, fuga sed nemo qui veritatis ducimus placeat odit quisquam dolorum. Rem, sunt, praesentium veniam maiores quia molestias eos fugit eaque ducimus veritatis provident assumenda. Quia, fuga, voluptates voluptatibus quis enim nam asperiores aliquam dignissimos ullam recusandae debitis iste.</p>
+				<p>Dignissimos, beatae, praesentium illum eos autem perspiciatis? Minus, non, tempore, illo, mollitia exercitationem tempora quas harum odio dolores delectus quidem laudantium adipisci ducimus ullam placeat eaque minima quae iure itaque corporis magni nesciunt eius sed dolor doloremque id quasi nisi.</p>
+			</article>
+			<!- - /Article - ->
+
+		</div>- ->
+	</div>	<!-- /container -->
+	
+
+	<footer id="footer" class="top-space"></footer>	
+		
+
+
+
+
+	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/headroom.min.js"></script>
+	<script src="js/jQuery.headroom.min.js"></script>
+	<script src="js/template.js"></script>
+	<script type="text/javascript" src="js/loadHeadFoot.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#navbarHeader li").removeClass("active");
+			$("#navbarHeader li:nth-child(3)").addClass("active")
+		});
+	</script>
+</body>
+</html>

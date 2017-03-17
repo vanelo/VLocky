@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<title>CerraduraElectrónica</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script src="js/jquery-1.12.2.min.js"></script>
+		<script type="text/javascript" src="js/jscript.js"></script>
+		<link rel="stylesheet" href="font-awesome-4.6.3/css/font-awesome.min.css">
+		<meta name= "description" content="Administarción de cerraduras electronicas a traves de permisos de usuario">
+		<meta name="keywords" content="Cerradura electronica, esp8862, arduino, wifi, control de acceso">
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+		<script src="js/gmailApi.js" type="text/javascript"></script>
+	</head>
+<body>
+	<header>
+		<div id="subheader">
+			<div id="logotipo"><a href="javascript: void(0);">Cerradura<span>Electrónica</span></a></div>
+			<div id="acercade">
+				<a href="javascript:void(0);" onclick="logout()">Salir <i class="fa fa-sign-out" aria-hidden="true"></i></a>
+				<a href="#acerca">Sobre el Proyecto <i class="fa fa-question-circle-o" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	</header>
+	<div id="wrap">
+		<section id="main">
+			<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
+			<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
+			<section id="puertas-habilitadas">
+				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
+				<p>
+					<ul id="doorsList"></ul>
+				</p>
+				<div id="formDoor" style="display:none;">
+					<input type="text" placeholder="Nombre" id="doorName"><br>
+					<input type="text" placeholder="ID" id="doorId"><br>
+					<input type="text" placeholder="Localidad" id="doorLocation"><br>
+					<input type="submit" value="Ok" onclick="newDoor()"><br>
+					<input type="submit" value="cerrar" onclick="cerrar()">
+				</div>
+			</section>
+			<section id="detallePuerta">
+				<div id="contentPuerta"></div>
+				<div class="table-responsive" id="showAccess"></div>
+			</section>
+			<br>
+			<section id="registros-recientes">
+				<h2 class="title"><span class="addElement"><a href="javascript:void(0);" onclick="userForm()"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Usuarios</h2>
+			  	<div style="float:left; margin-bottom: 15px;">
+			  		<input type="text" placeholder="ingrese dato de Usuario" id="uData">
+					<input type="submit" onclick= "getUsers()">
+				</div>
+					
+			  	<div id="addUser" style="display:none;">
+					<input type="text" placeholder="Nombre" id="uName"><br>
+					<input type="text" placeholder="Apellido" id="uLastname"><br>
+					<input type="email" placeholder="email" id="uEmail"><br>
+					<input type="text" placeholder="Numero de celular" id="uPhone"><br>
+					<input type="text" placeholder="ci" id="uDni"><br>
+					<input type="password" placeholder="password" id="uPassword"><br>
+					<select id="uDoor" style="width:100%;" multiple="true"></select><br>
+					<input type="submit" value="Crear" onclick="newUser()" id="btNewUser"><br>
+					<input type="submit" value="Actualizar" onclick="updUser()" id="btUpUser" style="display:none;"><br>
+					<input type="submit" value="cerrar" onclick="cerrar()">
+				</div>
+			  	<br>
+			  	<section  class="table-responsive">
+					<table class="table">
+						<thead>
+					      <tr>
+					        <th>Nombre</th>
+					        <th>Apellido</th>
+					        <th>Email</th>				        
+					        <th>Telefono</th>
+					        <th>ci</th>
+					      </tr>
+					    </thead>
+					    <tbody id="userInf"></tbody>
+					</table>
+				</section>
+			</section>			
+			<section id="ayuda">
+				<a name="acerca"></a>
+				<h2 class="title"># Acerca del funcionamiento del sistema</h2>
+					<h4>DEFINICION </h4>
+					<h4>OBJETIVO GENERAL DEL SISTEMA</h4>
+						<ul>
+							<li>Controlar el acceso del personal  a través de puertas a un inmueble usando cerraduras electrónicas.</li>
+						</ul>
+					<h4>OBJETIVOS Específicos:</h4>
+						<ul>
+							<li>•	Crear una base de datos que almacene los datos de las cerraduras, de los usuarios y de los eventos realizados en cada cerradura.</li>
+							<li>•	Crear un servidor que interactúe con la base de datos realizando lectura y escritura.</li>
+							<li>•	Diseñar una interfaz web para administrar el sistema.</li>
+							<li>•	Construir un prototipo de cerradura con dispositivos de entrada y salida para el usuario.</li>
+							<li>•	Conectar el sistema a una red LAN inalámbrica.</li>
+							<li>•	Realizar pruebas al sistema.</li>
+						</ul>
+					<h4>COMO UTILIZARLO:</h4>
+						<p>Este sistema cerraduras electrónicas funciona dentro de una LAN, por lo que debe conectarse a esta red e ingresar con su navegador a la dirección IP del servidor, con lo cual tendrá acceso a datos de usuario, cerradura y la interacción entre ellos mediante una amigable interfaz web, además podra crear, modificar y eliminar usuarios y puertas.</p>
+						<p>A cada usuario se le podrá conceder el acceso una o mas puertas por medio de una contraseña. El usuario con acceso permitido puede abrir la puerta que le corresponde ingresando su numero de documento luego su contraseña en un keypad conectado a la cerradura y podra visualizar su operación y resultado por medio de un lcd.
+						</p>
+						<p>La cerradura posee un microcontrolador denominado NodeMCU que tiene un modulo para conectarse de forma inalambrica, está programado en arduino y se alimenta por medio de un cargador de 12v. La cerradura posee un sistema de cerrado automático luego de unos tres segundos después de que fue abierta, para asegurar que esté correctamente cerrada, la cerradura usa un sensor magnetico para detectar el marco de la puerta antes de hacer el trancado.
+						</p>
+			</section>
+			<section id="contact">
+			<h2>Contactenos</h2>
+				<div id="authorize-div" style="display: none">
+			      <span>Authorize access to Google Apps Script Execution API</span>
+			      <!--Button for the user to click to initiate auth sequence -->
+			      <button id="authorize-button" onclick="handleAuthClick(event)">
+			        Authorize
+			      </button>
+			    </div>
+			      <form>
+			        <label>Email Addres:</label><br>
+			        <input id="email" type="text"><br>
+			        <label>Subject:</label><br>
+			        <input id="subject" type="text"><br>
+			        <label>Message:</label><br>
+			        <textarea id="text" name="name" rows="8" cols="80"></textarea><br>
+			      </form>
+			      <button  onclick="callScriptFunction();">Send Mail</button>
+			      <button  onclick="clean();">Clean fields</button>
+			<pre id="output"></pre>
+			</section>
+		</section>
+	</div>		
+	<footer>
+		<h5>Km 8 Akaray - B° San Juan - Campus universitario UNE - Ciudad del Este - Py.
+		<h3>Universidad Nacional del Este</h3>
+		<h4>Facultad Politécnica</h4>
+	</footer>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author"      content="Sergey Pozhilov (GetTemplate.com)">
+	
+	<title>DoorManagement - VLocky:control de acceso</title>
+
+	<link rel="shortcut icon" href="images/gt_favicon.png">
+	
+	<link rel="stylesheet" media="screen" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+
+	<!-- Custom styles for our template -->
+	<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" >
+	<link rel="stylesheet" href="css/main.css">
+	<script src="js/jquery-1.12.2.min.js"></script>
+	<script type="text/javascript" src=js/jscript.js></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+	<!-- Fixed navbar -->
+	<div id="header" class="navbar navbar-inverse navbar-fixed-top headroom" ></div> 
+	<!-- /.navbar -->
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container">
+		
+		<ol class="breadcrumb">
+			<li><a href="index.html">Home</a></li>
+			<li class="active">DoorManagement</li>
+		</ol>
+	</div>
+	<div id="wrap">
+		<section id="main" style="margin: 0 5% 0 5%;">
+			<h2 class="title">Puertas</h2>
+			<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
+			<section id="puertas-habilitadas">
+				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
+				<div>
+					<ul id="doorsList" ></ul>
+					<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;"></div>
+				</div>
+			</section>
+			<section id="detallePuerta">
+				<div id="contentPuerta"></div>
+				<div class="table-responsive" id="showAccess" style="max-height: 250px; overflow: auto; border: solid 2px aliceblue;"></div>
+			</section>
+			<br>
+			<section id="registros-recientes" style="clear: left;">
+				<h2 class="title">Usuarios</h2>
+			  	<div style="float:left; margin-bottom: 15px;">
+			  		<input type="text" placeholder="ingrese dato de Usuario" id="uData">
+					<input type="submit" onclick= "getUsers()">
+				</div>
+			  	<br>
+			  	<section  class="table-responsive">
+					<table class="table" style="max-height: 350px; overflow: auto; border: solid 2px aliceblue;">
+						<thead>
+					      <tr>
+					        <th>Nombre</th>
+					        <th>Apellido</th>
+					        <th>Email</th>				        
+					        <th>Telefono</th>
+					        <th>ci</th>
+					      </tr>
+					    </thead>
+					    <tbody id="userInf"></tbody>
+					</table>
+				</section>
+			</section>	
+		</section>
+	</div>
+
+	<footer id="footer" class="top-space"></footer>	
+
+	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="js/headroom.min.js"></script>
+	<script src="js/jQuery.headroom.min.js"></script>
+	<script src="js/template.js"></script>
+	<script type="text/javascript" src="js/loadHeadFoot.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#navbarHeader li").removeClass("active");
+			$("#navbarHeader li:nth-child(3)").addClass("active")
+		});
+	</script>
+</body>
+</html>

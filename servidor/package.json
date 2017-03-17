@@ -1,0 +1,26 @@
+{
+  "name": "vane",
+  "version": "1.0.0",
+  "description": "ecerradura",
+  "main": "servidor.js",
+  "dependencies": {
+    "ascoltatori": "^3.0.2",
+    "async": "^2.1.4",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.4.2",
+    "express": "^4.13.4",
+    "express-session": "^1.14.0",
+    "kerberos": "0.0.18",
+    "mongodb": "^2.2.24",
+    "mongoose": "^4.4.2",
+    "request": "^2.69.0",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vanelo",
+  "license": "ISC"
+}
