@@ -73,21 +73,22 @@ openNewPage('/about','/public/about.html');
 openNewPage('/doorsManagement','/public/doorsManagement.html');
 openNewPage('/contact','/public/contact.html');
 
-/*app.get('/doorsManagement', function (req, res)
+app.get('/doorsManagement', function (req, res)
 { 
 	sess = req.session;
-	if(sess.level=="admin") {
+	alert("this role is... "+ sess.role);
+	if(sess.role == "admin") {
 		res.sendFile(__dirname + '/public/doorsManagement.html');
-	}else if(sess.level=="user"){
+	}else if(sess.role == "user"){
 		res.sendFile(__dirname + '/public/doorsManagement2.html');
 	}else{
 		res.sendFile(__dirname + '/public/index.html');
 	}
-});*/
+});
 app.post('/login', function(req, res)
 {
 	var email = req.body.email;
-	var password= req.body.password;
+	var password = req.body.password;
 	sess = req.session;
 	models.Users.findOne({email: email, pass:password}).exec(function(error, user)
 	{
@@ -96,7 +97,7 @@ app.post('/login', function(req, res)
 			userId = user._id;
 			sess.userId=userId;
 			sess.email = email;
-			sess.level= user.level;
+			sess.role = user.role;
 			//In this we are assigning email to sess.email variable.
 			//res.sendFile(__dirname + '/public/index.html');
 			res.send('correcto');
@@ -104,16 +105,27 @@ app.post('/login', function(req, res)
 		}else{
 			res.send('incorrecto');
 		}
-
 	});
 });
 
-app.post('/getSession', function(req, res)
+/*app.post('/getUserId', function(req, res)
 {
 	var sess = req.session;
-	res.send(sess);
-	console.log("sess: " + sess);
-	console.log("sess.level: "+ sess.level);
+	var userId = sess.userId;
+	res.send(userId);
+	console.log("userId: " + userId);
+});*/
+app.post('/getThisRole', function(req, res)
+{
+	var sess = req.session;
+	var userId = sess.userId;
+	console.log("userId: " + userId);
+	models.Users.findOne({'_user': userId}, function(error, user){
+		if(user!=null){
+			res.send(user);
+			console.log("user role: " + user.role);
+		}
+	});
 });
 
 app.get('/logout',function(req,res)
@@ -176,7 +188,7 @@ app.post('/getAuser',function(req,res)
 	{
 		res.send(user);
 		console.log("err al obtener user: " + error);
-	})
+	});
 });
 
 app.post('/updateUser',function(req,res)
@@ -187,6 +199,7 @@ app.post('/updateUser',function(req,res)
 	var phone = req.body.phone;
 	var dni = req.body.dni;
 	var password= req.body.password;
+	var role= req.body.role;
 	var door = req.body._door;
 	models.Users.update({'dni': dni},{
 		'name':name,
@@ -194,7 +207,8 @@ app.post('/updateUser',function(req,res)
 		'email':email,
 		'phone': phone, 
 		'dni':dni, 
-		'pass':password, 
+		'pass':password,
+		'role':role,
 		'_door':door	
 	}, function(error, updatedUser)
 	{
@@ -267,6 +281,13 @@ app.get('/createEvent', function(req, res)
 	);
 });
 
+app.post('/getRoles', function(req, res)
+{
+	models.Roles.find().exec(function(error, roles)
+	{
+		res.send(roles);
+	});
+});
 //mostrar la lista de accesos por usuario
 app.post('/showDoorAccess', function(req, res)
 {
@@ -274,6 +295,7 @@ app.post('/showDoorAccess', function(req, res)
 	models.Events.find({_door:id}).populate('_user _door').exec(function(error, eventos)
 	{
 		res.send(eventos);
+		console.log("eventos: "+eventos);
 	});	
 });
 //obtener usuarios 
@@ -291,7 +313,7 @@ app.post('/getUsers',function(req,res) {
 	models.Users.find(query).populate('_door').exec(function(error, users)     
 	{  
 		res.send(users);
-		console.log(users);
+		//console.log(users);
 	}); 
 });
 

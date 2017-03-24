@@ -16,7 +16,7 @@ module.exports = {
     	'phone':{'type': String, 'required':true},
     	'dni':{'type': String, 'required':true},
     	'pass':{'type': String, 'required':true},
-        'level':{'type': String, 'required':true},
+        'role':{'type': String, 'required':true},
     	'_door': [{'type': String,  'ref':'Doors' }]
     }),
 
@@ -24,5 +24,8 @@ module.exports = {
     	'name': {'type': String, 'required':true},
     	'_id': {'type': String, 'unique': true, 'index': true, 'required': true},
     	'location': {'type': String, 'required':true},
+    }),
+    'Roles': mongoose.model('Roles', {
+        'name': {'type': String, 'required':true}
     })
 };

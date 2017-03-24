@@ -16,9 +16,11 @@
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" >
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/customVL.css">
 	<script src="js/jquery-1.12.2.min.js"></script>
 	<script type="text/javascript" src=js/jscript.js></script>
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<script type="text/javascript">getDoors();</script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -42,6 +44,7 @@
 			<li class="active">ManageDoors</li>
 		</ol>
 	</div>
+	<p>Bienvenido administrador</p>
 	<div id="wrap">
 		<section id="main" style="margin: 0 5% 0 5%;">
 			<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
@@ -69,7 +72,7 @@
 				<h2 class="title"><span class="addElement"><a href="javascript:void(0);" onclick="userForm()"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Usuarios</h2>
 			  	<div style="float:left; margin-bottom: 15px;">
 			  		<input type="text" placeholder="ingrese dato de Usuario" id="uData">
-					<input type="submit" onclick= "getUsers()">
+					<input type="submit" onclick= "getUsers();">
 				</div>
 			  	<div id="addUser" style="display:none;">
 					<input type="text" placeholder="Nombre" id="uName"><br>
@@ -78,9 +81,10 @@
 					<input type="text" placeholder="Numero de celular" id="uPhone"><br>
 					<input type="text" placeholder="ci" id="uDni"><br>
 					<input type="password" placeholder="password" id="uPassword"><br>
+					<select id="uRole" multiple="true"></select><br>
 					<select id="uDoor" style="width:100%;" multiple="true"></select><br>
 					<input type="submit" value="Crear" onclick="newUser()" id="btNewUser"><br>
-					<input type="submit" value="Actualizar" onclick="updUser()" id="btUpUser" style="display:none;"><br>
+					<input type="submit" value="Actualizar" onclick="updUser()" id="btUpUser"><br>
 					<input type="submit" value="cerrar" onclick="cerrar()">
 				</div>
 			  	<br>
@@ -93,6 +97,8 @@
 					        <th>Email</th>				        
 					        <th>Telefono</th>
 					        <th>ci</th>
+					        <th></th>
+					        <th></th>
 					      </tr>
 					    </thead>
 					    <tbody id="userInf"></tbody>
@@ -170,7 +176,7 @@
 
 
 	<!-- JavaScript libs are placed at the end of the document so the pages load faster -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 	<script src="js/headroom.min.js"></script>
 	<script src="js/jQuery.headroom.min.js"></script>
