@@ -218,17 +218,39 @@ app.post('/updateUser',function(req,res)
 	res.send('correcto');
 });
 
+app.post('/createLocation', function(req,res){
+	var name= req.body.name;
+	console.log("name: "+name);
+	models.Locations.create(
+		{
+			'name': name
+		}, function(error, locationcreated)
+		{
+			res.send('location created');
+		}
+	);
+});
+
+app.post('/getLocations', function(req,res)
+{
+	var name = req.body.name;
+	models.Locations.find({}, function(error, locations)
+	{
+		res.send(locations);
+	});
+});
+
 //crear puerta
 app.post('/createDoor', function(req, res)
 {
 	var name = req.body.name;
 	var _id = req.body._id;
-	var location = req.body.location;
+	var _location = req.body._location;
 	models.Doors.create(
 		{
 			'name':name,
 			'_id':_id,
-			'location': location
+			'_location': _location
 		}, function(error, doorcreado)
 		{
 			res.send('creado');

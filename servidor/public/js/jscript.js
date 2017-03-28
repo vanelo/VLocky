@@ -1,6 +1,7 @@
 $(document).ready(function()
 {
-//	getDoors();
+	getDoors();
+	getLocations();
 	getRoles();
 	/////script para obtener datos de socket.io
 	var socket = io.connect('http://localhost');
@@ -57,12 +58,27 @@ function userForm(){
 }
 
 function doorForm(){
+	var listLocation;
+	$.post("/getLocations",function(locations){
+		listLocation='';
+		if (locations) 
+		{	
+			for(var i=0; i<locations.length; i++)
+			{
+				listLocation+='<option value="'+locations[i].name+'">'+locations[i].name+'</option>';
+			}
+			$('#doorLocation').html(listLocation);
+		}
+	});
 	$("#formDoor").show();
 }
-
+function locationForm(){
+	$("#formLocation").show();
+}
 function cerrar(){
 	$("#addUser").hide();
 	$("#formDoor").hide();
+	$("#formLocation").hide();
 }
 
 function newUser(){
@@ -93,11 +109,39 @@ function deleteUser(userDni){
     });
 }
 
+function newLocation(){
+	var datos = {
+		'name': $('#locationName').val(),
+    };
+    $.post("/createLocation", datos, function(data, status){
+        console.log("data of location: "+data);
+        if(data == 'creado'){
+        	alert("Guardado!");	
+        }
+        getLocations(); 
+    });
+}
+ 
+function getLocations(){
+	var locationsList = '';
+	$.post("/getLocations",function(locations)
+	{	
+		if (locations) 
+		{	
+			for(var i=0; i<locations.length; i++)
+			{
+				locationsList+='<li>'+locations[i].name+'</li>';
+			}
+			$('#locationsList').html(locationsList);
+		}
+	});	
+}
+
 function newDoor(){
 	var datos = {
 		'name': $('#doorName').val(),
 		'_id': $('#doorId').val(),
-    	'location': $('#doorLocation').val()
+    	'_location': $('#doorLocation').val()
     };
     $.post("/createDoor", datos, function(data, status){
         console.log(data);
@@ -184,10 +228,13 @@ function getRoles(){
 	var roles='<option disabled style="font-weight: bold;">Elija un rol</option>';
 	$.post("/getRoles", function(rol)
 	{
-		for (var i = rol.length - 1; i >= 0; i--) {
-			roles+='<option value="'+rol[i].name+'">'+ rol[i].name +'</option>'
+		if(rol.length>0)
+		{
+			for (var i = rol.length - 1; i >= 0; i--) {
+				roles+='<option value="'+rol[i].name+'">'+ rol[i].name +'</option>'
+			}
+			$("#uRole").html(roles);
 		}
-		$("#uRole").html(roles);
 	});
 }
 
@@ -218,7 +265,7 @@ function getAccess(idDoor)
 	      
 	      $("#contentPuerta").html(detalles);
 	      $("#showAccess").html(tabla);
-	      alert("tabla: "+tabla+" detalles: "+detalles);
+	      //alert("tabla: "+tabla+" detalles: "+detalles);
 		}
 	});
 }
@@ -244,7 +291,7 @@ function doorDel(idDoor)
 
 function getUsers()
 {
-	
+
 	var data = {
 		'dato': $("#uData").val()
 	};

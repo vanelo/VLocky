@@ -47,18 +47,26 @@
 	<p>Bienvenido administrador</p>
 	<div id="wrap">
 		<section id="main" style="margin: 0 5% 0 5%;">
-			<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
-			<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
 			<section id="puertas-habilitadas">
 				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
-				<div>
-					<ul id="doorsList" ></ul>
-					<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;"></div>
+				<div class="customList">
+					<h2 class="title"><span onclick="locationForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>Localidades</h2>
+					<ul id="locationsList"></ul>
+					<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
+					<ul id="doorsList"></ul>
+				</div>	
+				<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
+				<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;">
 				</div>
-				<div id="formDoor" style="display:none;">
+				<div id="formLocation" style="display:none;" class="form">
+					<input type="text" placeholder="Nombre" id="locationName"><br>
+					<input type="submit" value="Ok" onclick="newLocation()"><br>
+					<input type="submit" value="cerrar" onclick="cerrar()">
+				</div>
+				<div id="formDoor" style="display:none;" class="form">
 					<input type="text" placeholder="Nombre" id="doorName"><br>
 					<input type="text" placeholder="ID" id="doorId"><br>
-					<input type="text" placeholder="Localidad" id="doorLocation"><br>
+					<select id="doorLocation"></select><br>
 					<input type="submit" value="Ok" onclick="newDoor()"><br>
 					<input type="submit" value="cerrar" onclick="cerrar()">
 				</div>
@@ -74,7 +82,7 @@
 			  		<input type="text" placeholder="ingrese dato de Usuario" id="uData">
 					<input type="submit" onclick= "getUsers();">
 				</div>
-			  	<div id="addUser" style="display:none;">
+			  	<div id="addUser" style="display:none;" class="form">
 					<input type="text" placeholder="Nombre" id="uName"><br>
 					<input type="text" placeholder="Apellido" id="uLastname"><br>
 					<input type="email" placeholder="email" id="uEmail"><br>

@@ -1,15 +1,15 @@
-#addUser, #formDoor{
+.form{
 	padding: 15px;
 	background: #777576;
 	box-shadow: 0px 2px 2px #000;
 		-moz-box-shadow: 0px 2px 2px #000;
 		-webkit-box-shadow: 0px 2px 2px #000;
 	position: fixed;
-	top: 5%;
+	top: 10%;
 	left: 25%;
 	z-index: 100;
 }
-#addUser input, #formDoor input{
+.form input{
 margin-bottom: 5px;
 margin-top: 5px;
 padding: 3px;
@@ -19,7 +19,20 @@ background: rgba(254,254,254,0.8);
 border-style: none;
 color: #000;
 }
-#addUser input[type=submit], #formDoor input[type=submit]{
+.form input[type=submit]{
 	background:  #4c4a4b;
 	color: #fff;
+}
+.customList{
+	width: 22%; 
+	float:left;
+	margin-right: 3%; 
+}
+.customList ul{
+	padding: 15px; 
+	border: solid lightgrey 2px; 
+	border-radius: 7px; 
+	max-height: 360px;
+	width: 100%;
+	float: left;
 }

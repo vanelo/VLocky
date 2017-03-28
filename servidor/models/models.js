@@ -23,9 +23,14 @@ module.exports = {
     'Doors': mongoose.model('Doors', {
     	'name': {'type': String, 'required':true},
     	'_id': {'type': String, 'unique': true, 'index': true, 'required': true},
-    	'location': {'type': String, 'required':true},
+    	'location': {'type':String, 'required':true, 'ref':'Locations'}
     }),
+
     'Roles': mongoose.model('Roles', {
         'name': {'type': String, 'required':true}
+    }),
+
+    'Locations':mongoose.model('Locations', {
+        'name': {'type': String, 'required':true, 'unique': true}
     })
 };

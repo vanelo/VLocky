@@ -41,7 +41,6 @@ label { color: #777; }
 .breadcrumb { background:none; padding:0; margin:30px 0 0px 0; }
 ul.list-spaces li{ margin-bottom:10px; }
 ul{ list-style: none;}
-#doorsList{padding: 15px; border: solid lightgrey 2px; border-radius: 7px; width: 22%; float:left;}
 
 
 /* Helpers */
