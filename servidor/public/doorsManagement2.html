@@ -17,6 +17,7 @@
 	<!-- Custom styles for our template -->
 	<link rel="stylesheet" href="css/bootstrap-theme.css" media="screen" >
 	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/customVL.css">
 	<script src="js/jquery-1.12.2.min.js"></script>
 	<script type="text/javascript" src=js/jscript.js></script>
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
@@ -42,17 +43,17 @@
 			<li class="active">DoorManagement</li>
 		</ol>
 	</div>
-	<p>Bienvenido encargado</p>
+	<h2>Bienvenido encargado</h2>
 	<div id="wrap">
 		<section id="main" style="margin: 0 5% 0 5%;">
-			<h2 class="title">Puertas</h2>
-			<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
 			<section id="puertas-habilitadas">
 				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
-				<div>
+				<div class="customList">
+					<h2 class="title">Puertas</h2>
 					<ul id="doorsList" ></ul>
-					<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;"></div>
 				</div>
+				<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
+				<div id="doorImg" style="float:left; width: 75%; margin-left: 3%;"></div>
 			</section>
 			<section id="detallePuerta">
 				<div id="contentPuerta"></div>

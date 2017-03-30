@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-	getDoors();
+	//getDoors();
 	getLocations();
 	getRoles();
 	/////script para obtener datos de socket.io
@@ -36,7 +36,8 @@ function login()
 function getThisRole(callback){    
 	$.post("/getThisRole", function(user){   
 		var userRole = user.role;     
-		callback("userRole: "+userRole);    
+		callback(userRole);    
+		console.log("userRole: "+userRole);
 	});     
 } 
 
@@ -88,6 +89,7 @@ function newUser(){
     	'email': $('#uEmail').val(),
     	'phone':$('#uPhone').val(),
 		'dni':$('#uDni').val(),
+		'role': $('#uRole').val(),
     	'password': $('#uPassword').val(),
     	'_door': $('#uDoor').val()
     };
@@ -123,7 +125,7 @@ function newLocation(){
 }
  
 function getLocations(){
-	var locationsList = '';
+	var locationsList = ''; 
 	$.post("/getLocations",function(locations)
 	{	
 		if (locations) 
@@ -156,6 +158,10 @@ function getDoors()
 {
 	var options = '';
 	var doorsList = '';
+	var thisRole;
+	getThisRole(function(role){
+		thisRole = role;
+	});
 	$.post("/getDoors",function(doors)
 	{
 		var doorsOptions = {};
@@ -214,7 +220,7 @@ function getDoors2()
 			for(var i=0; i<doorsOptions[location].length; i++)
 			{
 					options += '<option value="'+doorsOptions[location][i]._id+'">'+doorsOptions[location][i].name+'</option>';				
-					doorsList +='<li  class="addElement"><span title="ABRIR" onclick="abrirPuerta('+doorsOptions[location][i]._id+')"><i class="fa fa-sign-in" aria-hidden="true" style="cursor:pointer;"></i> </span><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';
+					doorsList +='<li  class="addElement"><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';
 			}
 			options += '</optgorup>';
 			doorsList +='</ul></li>';		
@@ -225,7 +231,7 @@ function getDoors2()
 }
 
 function getRoles(){
-	var roles='<option disabled style="font-weight: bold;">Elija un rol</option>';
+	var roles='';
 	$.post("/getRoles", function(rol)
 	{
 		if(rol.length>0)

@@ -70,13 +70,13 @@ function openNewPage(getName, dirName){
 openNewPage('/','/public/home.html');
 openNewPage('/home','/public/home.html');
 openNewPage('/about','/public/about.html');
-openNewPage('/doorsManagement','/public/doorsManagement.html');
+//openNewPage('/doorsManagement','/public/doorsManagement.html');
 openNewPage('/contact','/public/contact.html');
 
 app.get('/doorsManagement', function (req, res)
 { 
 	sess = req.session;
-	alert("this role is... "+ sess.role);
+	console.log("this role is... "+ sess.role);
 	if(sess.role == "admin") {
 		res.sendFile(__dirname + '/public/doorsManagement.html');
 	}else if(sess.role == "user"){
@@ -148,6 +148,7 @@ app.post('/user', function(req, res)
 	var email = req.body.email;
 	var phone = req.body.phone;
 	var dni = req.body.dni;
+	var role = req.body.role;
 	var password= req.body.password;
 	var door = req.body._door;
 		models.Users.create(
@@ -157,6 +158,7 @@ app.post('/user', function(req, res)
 			'email': email,
 			'phone':phone,
 			'dni':dni,
+			'role': role,
 		 	'pass':password,
 		 	'_door':door
 
