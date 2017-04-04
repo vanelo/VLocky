@@ -263,9 +263,9 @@ app.post('/createDoor', function(req, res)
 //listar puertas
 app.post('/getDoors', function(req, res)
 {
-	var name = req.body.name;
+	/*var name = req.body.name;
 	var id = req.body._id;
-	var location = req.body.location;
+	var location = req.body._location;*/
 	models.Doors.find({}, function(error, doors)
 	{
 		res.send(doors);

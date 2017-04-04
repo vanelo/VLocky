@@ -109,6 +109,7 @@ function deleteUser(userDni){
         console.log(data);
     	alert("Borrado!");    
     });
+    getUsers();
 }
 
 function newLocation(){
@@ -167,18 +168,19 @@ function getDoors()
 		var doorsOptions = {};
 		for(var i=0; i<doors.length; i++)
 		{
-			if(!doorsOptions[doors[i].location])
+			if(!doorsOptions[doors[i]._location])
 			{
-				doorsOptions[doors[i].location] = [];
+				doorsOptions[doors[i]._location] = [];
 			}
-			doorsOptions[doors[i].location].push({
+			doorsOptions[doors[i]._location].push({
 				name: doors[i].name,
 				_id: doors[i]._id
+				//_location:doors[i]._location
 			});
 		}
 		//para el select y el listado de puertas
 		for(var location in doorsOptions)
-		{
+		{	
 			options += '<optgroup label="'+location+'">';
 			doorsList +='<li><p class="listTitle">'+location+'</p><ul>';
 			for(var i=0; i<doorsOptions[location].length; i++)
@@ -203,11 +205,11 @@ function getDoors2()
 		var doorsOptions = {};
 		for(var i=0; i<doors.length; i++)
 		{
-			if(!doorsOptions[doors[i].location])
+			if(!doorsOptions[doors[i]._location])
 			{
-				doorsOptions[doors[i].location] = [];
+				doorsOptions[doors[i]._location] = [];
 			}
-			doorsOptions[doors[i].location].push({
+			doorsOptions[doors[i]._location].push({
 				name: doors[i].name,
 				_id: doors[i]._id
 			});
@@ -252,15 +254,15 @@ function getAccess(idDoor)
 	$("#doorImg").html("<img src='/images/doorUbication/"+idDoor+".jpg'/>");
 	$.post("/showDoorAccess", datos, function(eventos)
 	{
-       console.log(eventos);
+       var detalles ='';
+       var tabla = '';
        if(eventos[0]==null)
        {
        	alert("Esta puerta no posee registros!");
        }else
        {
-	       var detalles ='<div id="puerta"><p class="detailTitle">Puerta:'+eventos[0]._door.name+' Localidad:'+eventos[0]._door.location+'</p></div>';
-	       console.log(detalles);
-	       var tabla='<table class="table"><thead><tr><th>Nombre</th><th>Apellido</th><th>CI</th><th>Email</th><th>Evento</th><th>FechaHora</th></thead><tbody>';
+       		var detalles ='<div id="puerta"><p class="detailTitle">Puerta:'+eventos[0]._door.name+' Localidad:'+eventos[0]._door._location+'</p></div>';
+	       	tabla+='<table class="table"><thead><tr><th>Nombre</th><th>Apellido</th><th>CI</th><th>Email</th><th>Evento</th><th>FechaHora</th></thead><tbody>';
 			for(var i=0; i<eventos.length; i++)
 			{	
 				tabla +='<tr><td>'+eventos[i]._user.name+'</td><td>'+eventos[i]._user.lastName+'</td><td>'+eventos[i]._user.dni+'</td><td>'+
@@ -268,11 +270,10 @@ function getAccess(idDoor)
 					
 			}
 			tabla +='</td></tr></tr></tbody></table>';
-	      
+		}
+
 	      $("#contentPuerta").html(detalles);
 	      $("#showAccess").html(tabla);
-	      //alert("tabla: "+tabla+" detalles: "+detalles);
-		}
 	});
 }
 
@@ -326,7 +327,7 @@ function getUsers()
        			usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="7"><table><thead><th>Localidad</th><th>Nombre</th></thead><tbody>';
        			for(var j=0; j<users[i]._door.length; j++)
        			{
-       				usersTable+='<tr><td>'+users[i]._door[j].location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
+       				usersTable+='<tr><td>'+users[i]._door[j]._location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
        			}
        			usersTable+='</tbody></table></td></tr>';
        		}
@@ -356,7 +357,7 @@ function getUsers2()
        			usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="7"><table><thead><th>Localidad</th><th>Nombre</th></thead><tbody>';
        			for(var j=0; j<users[i]._door.length; j++)
        			{
-       				usersTable+='<tr><td>'+users[i]._door[j].location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
+       				usersTable+='<tr><td>'+users[i]._door[j]._location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
        			}
        			usersTable+='</tbody></table></td></tr>';
        		}
