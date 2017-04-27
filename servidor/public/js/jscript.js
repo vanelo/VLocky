@@ -8,13 +8,25 @@ $(document).ready(function()
 	socket.on('connection', function()
 	{
 		console.log('connected');
-	})
+	});
 	socket.on('news', function (data)
 	{
 		console.log(data);
 		alert("Se abrió la puerta");
 	});
+	//al cargar la pagina no trae el dato actualizado, 
+	//cuando cambia de estado recién envía el dato
+	socket.on('doorstate', function(data){
+		console.log("doorstate data: "+ data);
+		if(data.state === 1){
+			$("#"+data.client+" > img").attr("src","/images/doorState/1.png");
+		}else{
+			$("#"+data.client+" > img").attr("src","/images/doorState/0.png");
+		}
+	});
+
 });
+
 
 function login()
 { 
@@ -186,7 +198,7 @@ function getDoors()
 			for(var i=0; i<doorsOptions[location].length; i++)
 			{
 					options += '<option value="'+doorsOptions[location][i]._id+'">'+doorsOptions[location][i].name+'</option>';				
-					doorsList +='<li  class="addElement"><span title="ABRIR" onclick="abrirPuerta('+doorsOptions[location][i]._id+')"><i class="fa fa-sign-in" aria-hidden="true" style="cursor:pointer;"></i> </span><span title="ELIMINAR" onclick="doorDel('+doorsOptions[location][i]._id+')"><i class="fa fa-times" aria-hidden="true" style="cursor:pointer;"></i> </span><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';				
+					doorsList +='<li id="'+doorsOptions[location][i]._id+'" class="addElement"><img src="/images/doorState/1.png"/><span title="ABRIR" onclick="abrirPuerta('+doorsOptions[location][i]._id+')"><i class="fa fa-sign-in" aria-hidden="true" style="cursor:pointer;"></i> </span><span title="ELIMINAR" onclick="doorDel('+doorsOptions[location][i]._id+')"><i class="fa fa-times" aria-hidden="true" style="cursor:pointer;"></i> </span><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';				
 			}
 			options += '</optgorup>';
 			doorsList +='</ul></li>';		
@@ -222,7 +234,7 @@ function getDoors2()
 			for(var i=0; i<doorsOptions[location].length; i++)
 			{
 					options += '<option value="'+doorsOptions[location][i]._id+'">'+doorsOptions[location][i].name+'</option>';				
-					doorsList +='<li  class="addElement"><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';
+					doorsList +='<li id="'+doorsOptions[location][i]._id+'" class="addElement"><img src="/images/doorState/1.png"/><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';
 			}
 			options += '</optgorup>';
 			doorsList +='</ul></li>';		

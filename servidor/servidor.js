@@ -352,7 +352,7 @@ app.post('/openDoor', function(req, res)
 			res.send({'abierto':true});
 			models.Events.create(
 			{
-				'_user': sess.userId,
+				'_user': req.session.userId,
 				'_door': idDoor,
 				'description': 'abrir',
 				'date': new Date(),
@@ -363,7 +363,7 @@ app.post('/openDoor', function(req, res)
 			res.send({'abierto':false});
 			models.Events.create(
 			{
-				'_user': sess.userId,
+				'_user': req.session.userId,
 				'_door': idDoor,
 				'description': 'no se abrio',
 				'date': new Date(),
@@ -487,7 +487,7 @@ moscaserver.on('published', function(packet, client)
 							}else{
 								message = 'incorrecto';
 								//función para enviar la notificacion al navegador
-								socket.emit('news', {id: client.id, msj:'No se abrió la puerta'});
+								io.emit('news', {id: client.id, msj:'No se abrió la puerta'});
 								
 								models.Events.create(
 								{
@@ -523,5 +523,8 @@ moscaserver.on('published', function(packet, client)
 	if(obj.descriptor == "notif")
 	{
 		io.emit("news", {client: client.id});
+	}
+	if(obj.descriptor == "doorState"){
+		io.emit("doorstate", {client: client.id, state: obj.state});
 	}
 });
