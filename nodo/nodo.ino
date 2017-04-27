@@ -1,18 +1,17 @@
-#include <SPI.h>
 #include <PubSubClient.h>
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <Keypad.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-IPAddress server(192,168,0,103);
-const char* wifiSSID = "SSID";
-const char* wifiPass = "pass";
+IPAddress server(192,168,1,110);
+const char* wifiSSID = "lopez-wifi";
+const char* wifiPass = "mrhyde69";
 
 //parametros del lcd: "0x27" significa que no usa pines analogicos (A0=open,A1=open,A2=open) ,"16" (columnas) y "2" (filas)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-const byte numRows = 4; //number of rows on the keypad
+const byte numRows = 3; //number of rows on the keypad
 const byte numCols = 3; //number of columns on the keypad
 
 //keymap defines the key pressed according to the row and columns just as appears on the keypad
@@ -20,19 +19,21 @@ char keymap[numRows][numCols] = {
 	{'1','2','3'},
 	{'4','5','6'},
 	{'7','8','9'},
-	{'*','0','#'}
+	//{'*','0','#'}
 };
 WiFiClient ESPClient;
 PubSubClient client(ESPClient);
 /*Code that shows the the keypad connections to the arduino terminals*/
-byte rowPins[numRows] = {16, 10, 2, 14}; //Rows 0 to 3
+byte rowPins[numRows] = {16, 10, 2}; //Rows 0 to 3 //pin 14
 byte colPins[numCols] = {12, 13, 3}; //Columns 0 to
 
 //initializes an instance of the Keypad class
 Keypad myKeypad = Keypad(makeKeymap(keymap), rowPins, colPins, numRows, numCols);
 
 int cerraduraPin = 0;
-//int ledPin = 15;
+int doorSensor = 14;
+int new_door_state;
+int old_door_state = 0;
 int k = 0;
 boolean isLcdHigh = false;
 char dni[20];
@@ -52,7 +53,7 @@ int32_t chipId;
 char id_puerta[33];
 /*Funcion callback que recibe el mensaje del servidor*/
 void callback(char* topic, byte* payload, unsigned int length) {
-	StaticJsonBuffer<400> jsonBuffer; //Crea el buffer donde va ir el string json
+	StaticJsonBuffer<200> jsonBuffer; //Crea el buffer donde va ir el string json
   Serial.print("Message arrived on topic: ");
 	Serial.println(topic);
 	Serial.print("Message: ");
@@ -112,6 +113,23 @@ void callback(char* topic, byte* payload, unsigned int length) {
 	}
 }
 
+void doorState(){
+    
+    new_door_state = digitalRead(doorSensor);
+    if( new_door_state != old_door_state){
+        StaticJsonBuffer<200> jsonBuffer;                //Crear el buffer donde va ir el string json
+	    JsonObject& root = jsonBuffer.createObject();        //Crear el objeto raiz -> { }
+	    root["descriptor"] = "doorState";                //Crear el objeto "descriptor" dentro de la raiz -> {"descriptor": "doorState"}
+        root["state"] = new_door_state;                    //Crear el objeto "password" dentro de la raiz -> {"descriptor": "doorState", "state": "close"}
+        char myBuffer[200];                                //Crear el buffer de caracteres (que es lo que client.publish() acepta)
+	    root.printTo(myBuffer, sizeof(myBuffer));                //Convertir el buffer json a un buffer de caracteres y copiar a buffer[200]
+	    if (client.connect(id_puerta)) {
+	        client.publish(id_puerta, myBuffer);         //Publicar el mensaje (buffer de caracteres) al canal id_puerta/ agregue mas parametros para el retenido de msj;
+	    }
+	    old_door_state = new_door_state;
+	    //digitalWrite(15, new_door_state);
+    }
+}
 //EthernetClient ethClient;
 
 void wifi_setup() {
@@ -129,9 +147,10 @@ void setup()
 	Serial.begin(115200);
 	wifi_setup();
 	pinMode(cerraduraPin, OUTPUT);
-	//pinMode(ledPin, OUTPUT);
+	pinMode(doorSensor, INPUT_PULLUP);
+	/*pinMode(15, OUTPUT);*/
 	digitalWrite(cerraduraPin, HIGH);
-	//digitalWrite(ledPin, LOW);
+	old_door_state = digitalRead(doorSensor);
 	client.setServer(server, 1883);
 	client.setCallback(callback);
 	chipId = ESP.getChipId(); //returns the ESP8266 chip ID as a 32-bit integer.
@@ -162,9 +181,10 @@ void loop()
 
 		} else {
 			client.loop(); //ejecutar esta funcion cuando conecta al servidor
+			doorState();
 			char key = myKeypad.getKey();
 			/* Al apretar cualquier tecla se prende la pantalla y muestra la id de la puerta*/
-			if (key == '#' && isLcdHigh == false) {
+			if (key == '9' && isLcdHigh == false) {
 				lcd.backlight(); // Enable or Turn On the backlight
 				lcd.clear();
 				lcd.setCursor(0, 0);
@@ -177,7 +197,7 @@ void loop()
 			}
 
 			/*Al presionar la tecla # para el proceso de entrada de datos*/
-			if (k == 0 && key == '#') {
+			if (k == 0 && key == '9') {
 				//importantisimo cerar las variables para volver a utilizar
 				sDni = "";
 				sPass = "";
@@ -187,7 +207,7 @@ void loop()
 				Serial.println("Ingrese su dni: ");
 				k = 1;
 
-			} else if (key != NO_KEY && key != '#' && k == 1) {
+			} else if (key != NO_KEY && key != '9' && k == 1) {
 				lcd.setCursor(i, 1);
 				lcd.print(key);
 				Serial.println(key);
@@ -196,7 +216,7 @@ void loop()
 				/*Esta variable se usa para solucionar el problema de borrado de elementos en el array pues de este modo solo se guarda en el String dni los datos ingresados en el proceso actual*/
 				dniSize = i;
 
-			} else if (key == '#' && k == 1) {
+			} else if (key == '9' && k == 1) {
 				k = 2;
 				i = 0;
 				for (int j = 0; j < dniSize; j++) {
@@ -206,14 +226,14 @@ void loop()
 				lcd.setCursor(0, 0);
 				lcd.print("INGRESE SU PASS:");
 				Serial.println("Ingrese su password: ");
-			} else if (key != NO_KEY && key != '#' && k == 2) {
+			} else if (key != NO_KEY && key != '9' && k == 2) {
 				Serial.println(key);
 				lcd.setCursor(i, 1);
 				lcd.print("*");
 				pass[i] = key;
 				i++;
 				passSize = i;
-			} else if (key == '#' && k == 2) {
+			} else if (key == '9' && k == 2) {
 				k = 3;
 				i = 0;
 				for (int j = 0; j < passSize; j++) {
@@ -225,12 +245,12 @@ void loop()
 				Serial.println(sDni);
 				Serial.println(sPass);
 				Serial.println("Enviando datos");
-				StaticJsonBuffer<400> jsonBuffer;                //Crear el buffer donde va ir el string json
+				StaticJsonBuffer<200> jsonBuffer;                //Crear el buffer donde va ir el string json
 				JsonObject& root = jsonBuffer.createObject();        //Crear el objeto raiz -> { }
 				root["descriptor"] = "autenticacion";                //Crear el objeto "descriptor" dentro de la raiz -> {"descriptor": "autenticacion"}
 				root["dni"] = sDni;                            //Crear el objeto "ci" dentro de la raiz -> {"descriptor": "autenticacion", "ci": "4561234"}
 				root["pass"] = sPass;                    //Crear el objeto "password" dentro de la raiz -> {"descriptor": "autenticacion", "ci": "4561234", "password": "7a89sdf"}
-				char myBuffer[400];                                //Crear el buffer de caracteres (que es lo que client.publish() acepta)
+				char myBuffer[200];                                //Crear el buffer de caracteres (que es lo que client.publish() acepta)
 				root.printTo(myBuffer, sizeof(myBuffer));                //Convertir el buffer json a un buffer de caracteres y copiar a buffer[200]
 				if (client.connect(id_puerta)) {
 					client.publish(id_puerta, myBuffer);         //Publicar el mensaje (buffer de caracteres) al canal id_puerta/ agregue mas parametros para el retenido de msj;
