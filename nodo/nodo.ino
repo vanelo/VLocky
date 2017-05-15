@@ -4,9 +4,9 @@
 #include <Keypad.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-IPAddress server(192,168,1,110);
-const char* wifiSSID = "lopez-wifi";
-const char* wifiPass = "mrhyde69";
+IPAddress server(192,168,1,3);
+const char* wifiSSID = "wifi-test";
+const char* wifiPass = "123456789";
 
 //parametros del lcd: "0x27" significa que no usa pines analogicos (A0=open,A1=open,A2=open) ,"16" (columnas) y "2" (filas)
 LiquidCrystal_I2C lcd(0x27, 16, 2);
@@ -24,14 +24,14 @@ char keymap[numRows][numCols] = {
 WiFiClient ESPClient;
 PubSubClient client(ESPClient);
 /*Code that shows the the keypad connections to the arduino terminals*/
-byte rowPins[numRows] = {16, 10, 2}; //Rows 0 to 3 //pin 14
+byte rowPins[numRows] = {10, 2, 14}; //Rows 0 to 3 //pin 14
 byte colPins[numCols] = {12, 13, 3}; //Columns 0 to
 
 //initializes an instance of the Keypad class
 Keypad myKeypad = Keypad(makeKeymap(keymap), rowPins, colPins, numRows, numCols);
 
 int cerraduraPin = 0;
-int doorSensor = 14;
+int doorSensor = 1;
 int new_door_state;
 int old_door_state = 0;
 int k = 0;
@@ -197,7 +197,9 @@ void loop()
 			}
 
 			/*Al presionar la tecla # para el proceso de entrada de datos*/
-			if (k == 0 && key == '9') {
+			/*Agregado para hacer el reinicio del proceso de carga de datos
+			 en el caso de equivocarse*/
+			if ((k == 0 && key == '9') || key == '7') {
 				//importantisimo cerar las variables para volver a utilizar
 				sDni = "";
 				sPass = "";
