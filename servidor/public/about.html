@@ -50,24 +50,26 @@
 				<h3>Objetivo General</h3>
 				<p><img src="images/mac.jpg" alt="" class="img-rounded pull-right" width="300" > Controlar el acceso de personas a un inmueble través de cerraduras electrónicas.</p>
 				<h3>Objetivos Específicos</h3>
-				<ul>
+				<ol>
 					<li>Crear una base de datos que almacene los datos de las cerraduras, de los usuarios y de los eventos realizados en cada cerradura.</li>
 					<li>Crear un servidor Node.js para gestión de datos y nodos.</li>
 					<li>Diseñar una interfaz web para administrar el sistema.</li>
 					<li>Construir un prototipo de cerradura con dispositivos de entrada y salida para el usuario.</li>
 					<li>Conectar el sistema a una red LAN inalámbrica.</li>
 					<li>Realizar pruebas para evaluar el funcionamiento del sistema.</li>
+				</ol>
+				<h3>Definición del problema</h3>
+				<p>El escaso conocimiento en el área de IoT aplicada a control de acceso de personal en la Facultad Politécnica para:</p>
+				<ul>
+					<li>-	Generar un registro de accesos de personas  a una zona específica que sea confiable y automatizado.</li>
+					<li>-	Desarrollar un mecanismo para habilitar el paso de personas que cuentan con un libre tránsito y restringir el paso de personas no autorizadas.</li>
+					<li>-	Acceder a los datos del sistema de forma remota utilizando la red.</li>
 				</ul>
-				<h3>Justificación</h3>
-				<p>Los edificios de oficinas, que generalmente tienen un alto tráfico de personas y vehículos, se favorecen ampliamente del control de acceso. Un sistema de control de acceso con Plataforma WEB le permitirá confirmar en todo momento quién solicitó ingresar y realizar autorizaciones de ingreso de forma sencilla y fácil.</p>
-				<p>Los controles de acceso también tienen aplicación en las unidades colectivas de vivienda, como áreas de copropiedad o condominios campestres. Uno de los atributos de ese tipo de propiedades es esencialmente que ofrecen un mayor nivel de seguridad. Esta se logra garantizando que quienes circulan por los espacios compartidos están autorizados para hacerlo.</p>
-				<p>Lo mismo ocurre en las zonas francas, centros comerciales, parques industriales, almacenes, centros médicos, entre otros. Conociendo que este tipo de espacios suelen tener áreas restringidas en su interior y, por lo mismo, demandan un control más detallado. Los controles de acceso no simplemente monitorean el acceso general, sino que también ofrecen control sobre zonas o dependencias específicas.</p>
 				<h3>Alcance</h3>
-				<p>El sistema de control de acceso cuenta con una interfaz web para administrar las restricciones por usuario, así a cada usuario registrado con una contraseña el administrador le otorgará permiso para abrir una o más puertas.</p>
-				<p>Cada puerta estará vinculada a un departamento en específico, también se registrarán eventos que contendrán datos de la puerta, del usuario y el suceso en específico que ocurrió con la fecha del mismo, por ejemplo: Pedro abrió la puerta P1 ubicada en el Laboratorio de electricidad el 12/09/17 10:25:09.</p>
-				<p>La cerradura electrónica contará con una membrana de teclado matricial para ingreso de datos de autenticación de usuario, además contará con un LCD 16x2 hacer posible la visualización de los datos ingresados y para mostrar el mensaje de respuesta a la solicitud según corresponda.</p>
-				<p>Cada nodo puerta se comunicará de forma inalámbrica utilizando la tecnología WiFi, el sistema de cierre y apertura se realizará con el suministro y corte de energía respectivamente.</p>
-				
+				<p>El sistema de control de acceso desarrollado cuenta con tres partes fundamentales. La primera, la cerradura, cuenta con un dispositivo de transmisión de datos y dispositivos de entrada/ salida para el usuario. La segunda, consiste en una interfaz web que posibilita a un administrador registrar: usuarios, puertas y revisar eventos. Además, permite a cada usuario registrado abrir una o más puertas según su nivel de acceso. La tercera parte consiste en una base de datos, donde se almacenan todas las informaciones del sistema.</p>
+				<p>La cerradura está compuesta por un microcontrolador, con un módulo WiFi integrado, que se encarga de almacenar y procesar las instrucciones, además posee un dispositivo de entrada de datos, el teclado matricial de 3x4 teclas, y un dispositivo de salida, el LCD 16x2 para visualizar los datos ingresados y demás datos proveídos por el sistema.</p>
+				<p>La interfaz web posee un diseño adaptativo o responsivo, está disponible para dos niveles de acceso: Administrador, que tiene permisos de crear, editar y eliminar registros de puertas y usuarios, abrir cualquier puerta registrada en el sistema desde el navegador y también de visualizar todos los eventos ocurridos en las puertas; El Encargado, tiene permisos de visualizar los usuarios registrados en el sistema, así también las puertas y además podrá abrir cualquier puerta.</p>
+				<p>La base de datos utilizada se denomina MongoDB que es una base de datos documental, además permite escalabilidad, rendimiento y gran disponibilidad.</p>
 			</article>
 			<!-- /Article -->
 			
