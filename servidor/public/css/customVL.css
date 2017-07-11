@@ -24,7 +24,7 @@ color: #000;
 	color: #fff;
 }
 .customList{
-	width: 22%; 
+	width: 33%; 
 	float:left;
 	margin-right: 3%; 
 }
@@ -33,6 +33,18 @@ color: #000;
 	border: solid lightgrey 2px; 
 	border-radius: 7px; 
 	max-height: 360px;
+	max-width: 320px;
 	width: 100%;
 	float: left;
+	overflow: auto;
+}
+@media screen and (max-width: 480px) {
+	.form{
+		top:2%;
+		left: 0;
+	}
+	.customList{
+		width: 90%;
+	}
+
 }
