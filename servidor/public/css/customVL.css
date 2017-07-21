@@ -38,6 +38,7 @@ color: #000;
 	float: left;
 	overflow: auto;
 }
+.customList h2{clear: left;}
 @media screen and (max-width: 480px) {
 	.form{
 		top:2%;
@@ -45,6 +46,10 @@ color: #000;
 	}
 	.customList{
 		width: 90%;
+	}
+	#doorImg{
+		float:left; 
+		width: 75%;
 	}
 
 }
