@@ -50,13 +50,17 @@
 			<section id="puertas-habilitadas">
 				<!--<h3 style="font-weight:bold;">Puertas Habilitadas</h3>-->
 				<div class="customList">
-					<h2 class="title"><span onclick="locationForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>Localidades</h2>
+					<h2 class="title">
+						<span onclick="locationForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span>Localidades
+						</h2>
 					<ul id="locationsList"></ul>
-					<h2 class="title"><span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas</h2>
+					<h2 class="title">
+						<span onclick="doorForm();" class="addElement"><a href="javascript: void(0);"><i class="fa fa-plus-square-o" aria-hidden="true"></i></a></span> Puertas
+						</h2>
+					<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
 					<ul id="doorsList"></ul>
 				</div>	
-				<h6 Style="font-size: 9px; text-align:center; vertical-align:top">De click en una puerta para ver sus detalles</h6>
-				<div id="doorImg" style="float:left; width: 75%;">
+				<div id="doorImg">
 				</div>
 				<div id="formLocation" style="display:none;" class="form">
 					<input type="text" placeholder="Nombre" id="locationName"><br>
@@ -89,7 +93,9 @@
 					<input type="text" placeholder="Numero de celular" id="uPhone"><br>
 					<input type="text" placeholder="ci" id="uDni"><br>
 					<input type="password" placeholder="password" id="uPassword"><br>
+					<label>Rol: </label>
 					<select id="uRole"></select><br>
+					<label>Puertas: </label>
 					<select id="uDoor" style="width:100%;" multiple="true"></select><br>
 					<input type="submit" value="Crear" onclick="newUser()" id="btNewUser"><br>
 					<input type="submit" value="Actualizar" onclick="updUser()" id="btUpUser"><br>
