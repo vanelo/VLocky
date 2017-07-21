@@ -40,7 +40,7 @@ function login()
         	console.log("datos de login incorrecto");
         }else{
         	console.log("datos de login correcto");
-        	location.href="http://localhost/home";
+        	location.pathname="/home";
         }
     });
 }
@@ -58,7 +58,7 @@ function logout(){
 		if(status=="success"){
 			console.log(status);
 			console.log("ha salido de su session");
-			location.href="http://localhost/";
+			location.pathname="/";
 		}else{
 			alert("error al salir de session!");
 		}
@@ -68,6 +68,7 @@ function logout(){
 function userForm(){
 	$("#addUser").show();
 	$("#btNewUser").css("display","block");
+	$("#btUpUser").hide();
 }
 
 function doorForm(){
@@ -198,7 +199,7 @@ function getDoors()
 			for(var i=0; i<doorsOptions[location].length; i++)
 			{
 					options += '<option value="'+doorsOptions[location][i]._id+'">'+doorsOptions[location][i].name+'</option>';				
-					doorsList +='<li id="'+doorsOptions[location][i]._id+'" class="addElement"><img src="/images/doorState/1.png"/><span title="ABRIR" onclick="abrirPuerta('+doorsOptions[location][i]._id+')"><i class="fa fa-sign-in" aria-hidden="true" style="cursor:pointer;"></i> </span><span title="ELIMINAR" onclick="doorDel('+doorsOptions[location][i]._id+')"><i class="fa fa-times" aria-hidden="true" style="cursor:pointer;"></i> </span><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';				
+					doorsList +='<li id="'+doorsOptions[location][i]._id+'" class="addElement"><img src="/images/doorState/1.png"/><span title="ABRIR" onclick="abrirPuerta('+doorsOptions[location][i]._id+')"><i class="fa fa-sign-in fa-2x" aria-hidden="true" style="cursor:pointer;"></i> </span><span title="ELIMINAR" onclick="doorDel('+doorsOptions[location][i]._id+')"><i class="fa fa-times fa-2x" aria-hidden="true" style="cursor:pointer;"></i> </span><span onclick="getAccess('+doorsOptions[location][i]._id+')" title="'+doorsOptions[location][i]._id+'" style="cursor:pointer;">'+doorsOptions[location][i].name+'</span></li>';				
 			}
 			options += '</optgorup>';
 			doorsList +='</ul></li>';		
@@ -268,17 +269,20 @@ function getAccess(idDoor)
 	{
        var detalles ='';
        var tabla = '';
-       if(eventos[0]==null)
+       if(eventos[0] == null)
        {
-       	alert("Esta puerta no posee registros!");
+       		alert("Esta puerta no posee registros!");
        }else
        {
        		var detalles ='<div id="puerta"><p class="detailTitle">Puerta:'+eventos[0]._door.name+' Localidad:'+eventos[0]._door._location+'</p></div>';
 	       	tabla+='<table class="table"><thead><tr><th>Nombre</th><th>Apellido</th><th>CI</th><th>Email</th><th>Evento</th><th>FechaHora</th></thead><tbody>';
 			for(var i=0; i<eventos.length; i++)
 			{	
-				tabla +='<tr><td>'+eventos[i]._user.name+'</td><td>'+eventos[i]._user.lastName+'</td><td>'+eventos[i]._user.dni+'</td><td>'+
-				eventos[i]._user.email+'</td><td>'+eventos[i].description+'</td><td>'+eventos[i].date+'</td>';
+				if(eventos[i]._user != null){
+					tabla +='<tr><td>'+eventos[i]._user.name+'</td><td>'+eventos[i]._user.lastName+'</td><td>'+eventos[i]._user.dni+'</td><td>'+
+					eventos[i]._user.email+'</td><td>'+eventos[i].description+'</td><td>'+eventos[i].date+'</td>';
+				}
+					
 					
 			}
 			tabla +='</td></tr></tr></tbody></table>';
@@ -331,17 +335,19 @@ function getUsers()
        {
        		for(var i=0; i<users.length; i++)
        		{
-       			usersTable+='<tr title="'+users[i]._door.length+'" style="cursor:pointer;" onclick="$(\'#tabUsers_'+users[i]._id+'\').toggle();"><td>'+users[i].name+'</td><td>'+users[i].lastName+'</td><td>'+users[i].email+'</td><td>'+users[i].phone+'</td><td>'+users[i].dni+'</td>';
-       			usersTable+='<td><i class="fa fa-pencil-square-o" aria-hidden="true" style="cursor:pointer;" onclick="editUser('+users[i].dni+')"></i></td><td><i class="fa fa-times" aria-hidden="true" style="cursor:pointer;" onclick="deleteUser('+users[i].dni+')"></i></td></tr>';
-       			/*usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="5"><table><tbody>';
-       			usersTable+='<tr><td style="cursor:pointer; text-align:center; color:#5BBCEC;" onclick="editUser('+users[i].dni+')"> Editar usuario </td>';
-       			usersTable+='<td style="cursor:pointer; text-align:center; color:#5BBCEC;" onclick="deleteUser('+users[i].dni+')">Eliminar usuario</td></tr>';*/
-       			usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="7"><table><thead><th>Localidad</th><th>Nombre</th></thead><tbody>';
-       			for(var j=0; j<users[i]._door.length; j++)
-       			{
-       				usersTable+='<tr><td>'+users[i]._door[j]._location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
-       			}
-       			usersTable+='</tbody></table></td></tr>';
+	       		if(users[i]._door != null){
+	       			usersTable+='<tr title="'+users[i]._door.length+'" style="cursor:pointer;" onclick="$(\'#tabUsers_'+users[i]._id+'\').toggle();"><td>'+users[i].name+'</td><td>'+users[i].lastName+'</td><td>'+users[i].email+'</td><td>'+users[i].phone+'</td><td>'+users[i].dni+'</td>';
+	       			usersTable+='<td><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true" style="cursor:pointer;" onclick="editUser('+users[i].dni+')"></i></td><td><i class="fa fa-times fa-2x" aria-hidden="true" style="cursor:pointer;" onclick="deleteUser('+users[i].dni+')"></i></td></tr>';
+	       			/*usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="5"><table><tbody>';
+	       			usersTable+='<tr><td style="cursor:pointer; text-align:center; color:#5BBCEC;" onclick="editUser('+users[i].dni+')"> Editar usuario </td>';
+	       			usersTable+='<td style="cursor:pointer; text-align:center; color:#5BBCEC;" onclick="deleteUser('+users[i].dni+')">Eliminar usuario</td></tr>';*/
+	       			usersTable+='<tr style="display:none;" id="tabUsers_'+users[i]._id+'"><td colspan="7"><table><thead><th>Localidad</th><th>Nombre</th></thead><tbody>';
+	       			for(var j=0; j<users[i]._door.length; j++)
+	       			{
+	       				usersTable+='<tr><td>'+users[i]._door[j]._location+'</td><td>'+users[i]._door[j].name+'</td></tr>';
+	       			}
+	       			usersTable+='</tbody></table></td></tr>';
+	       		}
        		}
        		$("#userInf").html(usersTable);
        }

@@ -26,6 +26,7 @@ server.listen(80, function()
 });
 //Declare session variable
 var sess;
+var sess_rol;
 //Cuando un cliente solicita '/', enviarle public/index.html
 app.use(express.static(__dirname+'/public'));
 app.use(bodyParser.json());
@@ -54,12 +55,39 @@ app.use(session({
 	}
 });*/
 //Cuando un cliente solicita '/hacerAlgunaCosa'
+function nivelRequerido(rol) {     
+	return function(req, res, next)
+	{         
+		if(req.session.role && req.session.role == rol)
+		{             
+			// Inicio sesion y tiene el nivel requerido
+			next();
+	    }else{
+	        // No inicio sesion o no tiene el nivel requerido
+	        res.sendStatus(403);
+        }
+    };
+}
+
+function loginRequerido() {     
+	return function(req, res, next)
+	{         
+		if(req.session)
+		{             
+			// Inicio sesion y tiene el nivel requerido
+			next();
+	    }else{
+	        // No inicio sesion
+	        res.sendStatus(403);
+        }
+    };
+}
+
 function openNewPage(getName, dirName){
 	app.get(getName, function (req, res)
 	{ 
-		sess = req.session;
-		if(sess.email) {
-			console.log("sess.email: " + sess.email);
+		if(req.session)
+		{             
 			res.sendFile(__dirname + dirName);
 		}else{
 			res.sendFile(__dirname + '/public/index.html');
@@ -70,7 +98,6 @@ function openNewPage(getName, dirName){
 openNewPage('/','/public/home.html');
 openNewPage('/home','/public/home.html');
 openNewPage('/about','/public/about.html');
-//openNewPage('/doorsManagement','/public/doorsManagement.html');
 openNewPage('/contact','/public/contact.html');
 
 app.get('/doorsManagement', function (req, res)
@@ -118,14 +145,7 @@ app.post('/login', function(req, res)
 app.post('/getThisRole', function(req, res)
 {
 	var sess = req.session;
-	var userId = sess.userId;
-	console.log("userId: " + userId);
-	models.Users.findOne({'_user': userId}, function(error, user){
-		if(user!=null){
-			res.send(user);
-			console.log("user role: " + user.role);
-		}
-	});
+	res.send(sess);
 });
 
 app.get('/logout',function(req,res)
@@ -135,13 +155,12 @@ app.get('/logout',function(req,res)
 	  if(err) {
 	    console.log("logout err: " + err);
 	  } else {
-	    res.send("ok");
-	    res.sendFile(__dirname + '/public/index.html');
+	    res.send("success");
 	  }
 	});
 });
 
-app.post('/user', function(req, res)
+app.post('/user', loginRequerido(), function(req, res)
 {
 	var name = req.body.name;
 	var lastName = req.body.lastName;
@@ -173,7 +192,7 @@ app.post('/user', function(req, res)
 	);
 });
 
-app.post('/deleteUser', function(req, res)
+app.post('/deleteUser', nivelRequerido('admin'), function(req, res)
 {
 	var dni = req.body.dni;
 	models.Users.findOneAndRemove(
@@ -183,7 +202,7 @@ app.post('/deleteUser', function(req, res)
 	});
 });
 
-app.post('/getAuser',function(req,res)
+app.post('/getAuser', loginRequerido(), function(req,res)
 {
 	var dni = req.body.dni;
 	models.Users.findOne({'dni':dni}, function(error, user)
@@ -193,7 +212,7 @@ app.post('/getAuser',function(req,res)
 	});
 });
 
-app.post('/updateUser',function(req,res)
+app.post('/updateUser', nivelRequerido('admin'), function(req,res)
 {
 	var name = req.body.name;
 	var lastName = req.body.lastName;
@@ -203,7 +222,7 @@ app.post('/updateUser',function(req,res)
 	var password= req.body.password;
 	var role= req.body.role;
 	var door = req.body._door;
-	models.Users.update({'dni': dni},{
+	models.Users.findOneAndUpdate({'dni': dni},{
 		'name':name,
 		'lastName':lastName,
 		'email':email,
@@ -216,11 +235,14 @@ app.post('/updateUser',function(req,res)
 	{
 		console.log('error: '+ error);
 		console.log('updatedUser: '+ updatedUser);
+		if(error != null)
+			res.send('correcto');
+		else
+			res.send('error al actualizar usuario');
 	});
-	res.send('correcto');
 });
 
-app.post('/createLocation', function(req,res){
+app.post('/createLocation', nivelRequerido('admin'), function(req,res){
 	var name= req.body.name;
 	console.log("name: "+name);
 	models.Locations.create(
@@ -233,7 +255,7 @@ app.post('/createLocation', function(req,res){
 	);
 });
 
-app.post('/getLocations', function(req,res)
+app.post('/getLocations', loginRequerido(), function(req,res)
 {
 	var name = req.body.name;
 	models.Locations.find({}, function(error, locations)
@@ -243,7 +265,7 @@ app.post('/getLocations', function(req,res)
 });
 
 //crear puerta
-app.post('/createDoor', function(req, res)
+app.post('/createDoor', nivelRequerido('admin'), function(req, res)
 {
 	var name = req.body.name;
 	var _id = req.body._id;
@@ -261,18 +283,15 @@ app.post('/createDoor', function(req, res)
 });
 
 //listar puertas
-app.post('/getDoors', function(req, res)
+app.post('/getDoors', loginRequerido(), function(req, res)
 {
-	/*var name = req.body.name;
-	var id = req.body._id;
-	var location = req.body._location;*/
 	models.Doors.find({}, function(error, doors)
 	{
 		res.send(doors);
 	});
 });
 
-app.post('/deleteDoor', function(req, res)
+app.post('/deleteDoor', nivelRequerido('admin'), function(req, res)
 {
 	var id = req.body._id;
 	models.Doors.findOneAndRemove(
@@ -283,7 +302,7 @@ app.post('/deleteDoor', function(req, res)
 });
 
 //crear eventos
-app.get('/createEvent', function(req, res)
+app.get('/createEvent', nivelRequerido('admin'), function(req, res)
 {
 	models.Events.create(
 		{
@@ -305,7 +324,7 @@ app.get('/createEvent', function(req, res)
 	);
 });
 
-app.post('/getRoles', function(req, res)
+app.post('/getRoles', loginRequerido(), function(req, res)
 {
 	models.Roles.find().exec(function(error, roles)
 	{
@@ -313,17 +332,18 @@ app.post('/getRoles', function(req, res)
 	});
 });
 //mostrar la lista de accesos por usuario
-app.post('/showDoorAccess', function(req, res)
+app.post('/showDoorAccess', loginRequerido(), function(req, res)
 {
 	var id = req.body.doorID;
 	models.Events.find({_door:id}).populate('_user _door').exec(function(error, eventos)
 	{
 		res.send(eventos);
 		console.log("eventos: "+eventos);
-	});	
+	});
 });
+
 //obtener usuarios 
-app.post('/getUsers',function(req,res) {     
+app.post('/getUsers', loginRequerido(), function(req,res) {     
 	var regex = new RegExp("^" + req.body.dato, "i");     
 	var query = {         
 		$or: [             
@@ -341,7 +361,7 @@ app.post('/getUsers',function(req,res) {
 	}); 
 });
 
-app.post('/openDoor', function(req, res)
+app.post('/openDoor', loginRequerido(), function(req, res)
 {
 	var idDoor = req.body.doorID;
 	abrirPuerta(idDoor, function(enviado)
@@ -472,8 +492,8 @@ moscaserver.on('published', function(packet, client)
 								message = 'abrir';
 								console.log("Autenticacion correcta");
 								//función para enviar la notificacion al navegador
-								
-								io.emit('news', {id: client.id, msj:'Se abrió la puerta'});
+								//if(sess.userId == client.id)
+									io.emit('news', {id: client.id, msj:'Se abrió la puerta'});
 								  
 								
 								models.Events.create(
